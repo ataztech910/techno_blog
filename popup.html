@@ -1,28 +1,28 @@
 <html>
 <head>
-  <!-- <link rel="stylesheet" href="third-party/jquery-ui.css">
-  <link rel="stylesheet" href="third-party/jquery-ui.structure.css">
-  <link rel="stylesheet" href="third-party/jquery-ui.theme.css">
   <link rel="stylesheet" href="popup.css">
-  <script src="third-party/jquery-1.12.4.js"></script>
-  <script src="third-party/jquery-ui-1.12.1.js"></script> -->
 </head>
-<body style="width: 400px">
+<body>
   <div class="AuthForm">
     <div class="AuthFrom__shortName">
-      <input type="text" id="shortName" placeholder="Sort name" />
+      <input type="text" id="shortName" placeholder="Short name" />
     </div>
     <div class="AuthFrom__name">
-      <input type="text" id="name" placeholder="Name">
+      <input type="text" id="authorName" placeholder="Author name">
     </div>
     <div class="AuthFrom__link">
       <input type="text" id="link" placeholder="Link">
     </div>
     <div class="AuthFrom__submit">
       <input type="button" value="Create token" id="submit">
+      <input type="button" value="Cancel" id="cancel">
     </div>
   </div>
   <div class="TokenList" id="tokenlist"></div>
+  <div class="AddAuth">
+    <input type="button" value="add author" />
+    <input type="button" value="clear" id="clear">
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>

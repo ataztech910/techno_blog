@@ -8,11 +8,11 @@ function modifyHeaders(e) {
         e.requestHeaders.splice(index, 1);
         e.requestHeaders.push({
             name: "Cookie",
-            value: "tph_token=3ff0f0f34bd72dd02b7cf6dce47fef3d4c2b59014dbe6df901f011a55b32"
+            value: "tph_token=24b31202062fb4a166849dc7230fd2734d66a16a5679602f44cffa85d12f"
         })
     }
     return {
-        requestHeaders: e.requestHeaders
+        // requestHeaders: e.requestHeaders
     };
 }
 
@@ -21,3 +21,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     {urls: ['<all_urls>']},
     ['blocking', 'requestHeaders', 'extraHeaders']
 );
+
+chrome.runtime.onMessage.addListener( (request,sender,sendResponse) => {
+    console.log('from message', {request,sender,sendResponse});
+})
