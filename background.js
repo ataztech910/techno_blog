@@ -1,6 +1,7 @@
 console.log('bg loaded');
 function modifyHeaders(e) {
-    if (e.url === "https://edit.telegra.ph/check") {
+    // TODO сделать универсальную проверку
+    if (e.url === "https://edit.telegra.ph/check" || e.url === "https://edit.telegra.ph/save") {
         console.log(e);
         const index = e.requestHeaders.findIndex(element => element.name === "Cookie");
         console.log('index', index);
