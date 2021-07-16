@@ -1,0 +1,7 @@
+.tl_ui_wrapper {
+    position: absolute;
+    width: 4rem;
+    background-color: brown;
+    height: calc(100vh);
+    left: 0;
+}

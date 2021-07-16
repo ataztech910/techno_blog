@@ -1,0 +1,28 @@
+{
+    "name": "My telegraph",
+    "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "webRequest",
+      "webRequestBlocking",
+      "*://*.telegra.ph/"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    },
+    "browser_action": {
+      "default_title": "Say It",
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://*.telegra.ph/*"],
+            "css": ["contentStyles.css"],
+            "js": ["contentScript.js"]
+        }
+    ]
+  }
