@@ -118,9 +118,39 @@ getDataFromStorage(tokenlist);
 document.addEventListener("click", (e) => {
   if (e.target && e.target.id === "useToken") {
     console.log("dataset", e.target.dataset);
+    
     chrome.runtime.sendMessage({token: e.target.dataset.token}, 
         (response) => { 
             console.log("response", response);
+            if (response.response === 'token_recived') {
+
+              chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {token: e.target.dataset.token}, function(response) {
+                  console.log(response);
+                });
+              });
+
+
+              chrome.storage.local.get([storageName], (result) => {
+                const usersList = JSON.parse(result[storageName]);
+                usersList.forEach(element => {
+                  if (element.accessToken === e.target.dataset.token) {
+                    element.loggedIn = 'true';
+                  } else {
+                    element.loggedIn = 'false';
+                  }
+                });
+                chrome.storage.local.set(
+                  { [storageName]: JSON.stringify(usersList) },
+                  () => {
+                    console.log("Value is set to ", JSON.stringify(usersList));
+                    chrome.tabs.update({ active: true, url: 'https://telegra.ph/' });
+                    getDataFromStorage(tokenlist);
+                  }
+                );
+              });
+              
+            }
         }
     ); 
   }

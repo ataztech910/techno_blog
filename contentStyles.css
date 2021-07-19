@@ -1,7 +1,27 @@
 .tl_ui_wrapper {
-    position: absolute;
+    position: fixed;
     width: 4rem;
     background-color: brown;
     height: calc(100vh);
     left: 0;
+}
+.tl_artiles_list {
+    display: none;
+}
+
+.Article {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Article div {
+    max-width: 100px;
+    width: 33%;
+    padding: 0.5rem;
+    transition: 0.5s;
+    background-color: transparent;
+}
+
+.Article__image img{
+    width: 50px;
 }

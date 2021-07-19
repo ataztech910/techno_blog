@@ -24,7 +24,7 @@ body {
 }
 
 .AuthForm {
-    display: none;
+    /* display: none; */
 }
 
 input[type=button] {
