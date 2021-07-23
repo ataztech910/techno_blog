@@ -20,7 +20,6 @@ chrome.storage.local.get([storageName], (result) => {
     });  
 })
 
-console.log(document.location.hostname);
 const doc = document.getElementsByClassName('tl_page_wrap');
 const page = document.getElementsByClassName('tl_page');
 const wrapper = document.createElement("div");
@@ -39,6 +38,9 @@ wrapper.innerHTML = `
     <div class="Navigation">
         <div class="Navigation__element">
             <input type="button" value="list" id="list" />
+        </div>
+        <div class="Navigation__element">
+            <input type="button" value="new" id="new" />
         </div>
     </div>
 `
@@ -65,28 +67,37 @@ document.addEventListener("click", (e) => {
                 result.result.pages.forEach(element => {
                     const img = element.image_url ? `<div class="Article__image"><img src="${element.image_url}"></div>` : '<div class="Article__image">no image</div>';
                     list += `
-                        <div class="Article">
+                        <div class="Article" onclick="location.href = '${element.url}'">
                             ${img}
                             <div>
                                 <a href="${element.url}">${element.title}</a>
                             </div>
                             <div class="Article__desc">
-                                ${element.description}
+                                ${element.views}
                             </div>
                             
                         </div>
                     `    
                 });
-                tl_artiles_list.innerHTML = list;
+                tl_artiles_list.innerHTML = `
+                    <div><h1>Articles list</h1></div>
+                    <div class="Article Article--header">
+                        <div>image</div>
+                        <div>title</div>
+                        <div>visits</div>
+                    </div>
+                    ${list}`;
               }
             }
           };
-        
+          console.log(`https://api.telegra.ph/getPageList?access_token=${current_token}`);
           xhttp.open(
             "GET",
             `https://api.telegra.ph/getPageList?access_token=${current_token}`,
             true
           );
           xhttp.send();    
+    } else if(e.target && e.target.id === "new") {
+        location.href = "https://telegra.ph/";
     }
 });

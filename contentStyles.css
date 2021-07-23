@@ -12,6 +12,17 @@
 .Article {
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.Article:hover {
+    background-color: cadetblue;
+}
+
+.Article--header {
+    font-weight: bold;
+    background-color: cadetblue;
 }
 
 .Article div {
