@@ -1,32 +1,155 @@
+:root {
+    --header-color: #2E3532;
+    --light-color: #fff;
+    --table-header-color: #C7CEDB;
+    --table-hover-color: #F4F5F6;
+    --button-color: #A0AAB2;
+    --active-status-color: #2bc48a;
+}
 body {
     width: 600px;
-}
-.UserElement {
-    display: flex;
-    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    font-family: 'Merriweather', serif;
 }
 
-.UserElement div {
-    max-width: 100px;
-    width: 33%;
+.TokenList {
+   display: table;
+   width: 100%;
+}
+
+.Header {
+    background-color: var(--header-color);
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    color: var(--light-color);
+    font-size: 1.5rem;
+    font-family: 'Merriweather', serif;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+.Header img {
+    width: 60%;
+}
+
+.button {
+    background: var(--button-color);
+    border: 0;
+    color: var(--light-color);
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 6rem;
+    text-align: right;
+    line-height: 1;
+    margin: 0.5rem;
+}
+.button img {
+    width: 30%;
+}
+
+.UserElement {
+    display: table-row-group;
+}
+
+
+
+.UserElement__div {
+    display: table-cell;
     padding: 0.5rem;
     transition: 0.5s;
     background-color: transparent;
+    text-align: left;
+    border-bottom: 1px solid;
+    height: 2.5rem;
+    line-height: 2.5rem;
 }
 
 .UserElement:hover {
-    background-color: darkgray;
+    background-color: var(--table-hover-color);
 }
 
 .UserElement--header {
+    display: table-header-group;
     font-weight: bold;
-    background-color: cadetblue !important;
+    background-color: var(--table-header-color) !important;
 }
 
 .AuthForm {
-    /* display: none; */
+    display: none;
 }
 
 input[type=button] {
     cursor: pointer;
+}
+
+.badge {
+    border-radius: 3px;
+    padding: 0 5px;
+    font-size: 11px;
+    height: 18px;
+    line-height: 18px;
+    vertical-align: text-bottom;
+    color: #0b2239;
+    width: fit-content;
+}
+
+.badge--true {
+    background: var(--active-status-color);
+}
+.badge--false {
+    background: var(--button-color);
+}
+
+.actionIcon {
+    width: 20px;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 100px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+  
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.AuthForm {
+    margin: 0 auto;
+    width: 50%;
+    padding: 0.5rem;
+    text-align: center;
+}
+.AuthFrom__element {
+    margin: 0 auto;
+    padding: 0.5rem;
+    text-align: center;
+}
+.AuthFrom__element input {
+    padding: 0.5rem;
+    width: 100%;
+}
+.auth_button {
+    width: 49.5% !important;
+    background-color: var(--button-color);
+    border: 0;
+    color: var(--light-color);  
 }
