@@ -1,7 +1,16 @@
+:root {
+    --header-color: #2E3532;
+    --light-color: #fff;
+    --table-header-color: #C7CEDB;
+    --table-hover-color: #F4F5F6;
+    --button-color: #A0AAB2;
+    --active-status-color: #2bc48a;
+}
 .tl_ui_wrapper {
     position: fixed;
-    width: 4rem;
-    background-color: brown;
+    width: 100px;
+    padding: 0.5rem;
+    background-color: var(--header-color);
     height: calc(100vh);
     left: 0;
 }
@@ -14,15 +23,16 @@
     justify-content: space-between;
     cursor: pointer;
     transition: 0.5s;
+    font-family: CustomSansSerif,'Lucida Grande',Arial,sans-serif;
 }
 
 .Article:hover {
-    background-color: cadetblue;
+    background-color: var(--table-hover-color);
 }
 
 .Article--header {
     font-weight: bold;
-    background-color: cadetblue;
+    background-color: var(--table-header-color);
 }
 
 .Article div {
@@ -35,4 +45,37 @@
 
 .Article__image img{
     width: 50px;
+}
+
+.Navigation__element .buttonForNavigation {
+    width: 100%;
+    padding: 0.5rem;
+    color: var(--header-color);
+    font-weight: 100;
+    font-size: 1rem;
+    background-color: var(--table-header-color);
+    border: 0;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.buttonForNavigation:hover {
+    opacity: 0.8;
+}
+
+.Navigation__element {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+h1 {
+    font-family: CustomSansSerif,'Lucida Grande',Arial,sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 32px;
+    margin: 21px 21px 12px;
+    line-height: 34px;
+}
+
+a {
+    color: var(--header-color);
 }

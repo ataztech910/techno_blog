@@ -1,27 +1,44 @@
 <html>
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="AuthForm">
-    <div class="AuthFrom__shortName">
+  <div class="Header">
+    <!-- <div><img src="/icons/target-audience_64.png" alt="Manager for Telegra.ph"></div> -->
+    <div>Manager for Telegra.ph</div>
+    <div>
+      <button id="addAuthor" class="button">
+        <img src="/icons/copywriter.png" alt="" />
+        add author
+      </button>
+    </div>  
+    <!-- <div>
+      <button id="addAuthor" class="button">
+        <img src="/icons/target-audience_64.png" alt="" />
+        add token
+      </button>
+    </div> -->
+  </div>
+  <div class="AuthForm" id="AuthForm">
+    <div class="AuthFrom__element">
       <input type="text" id="shortName" placeholder="Short name" />
     </div>
-    <div class="AuthFrom__name">
+    <div class="AuthFrom__element">
       <input type="text" id="authorName" placeholder="Author name">
     </div>
-    <div class="AuthFrom__link">
+    <div class="AuthFrom__element">
       <input type="text" id="link" placeholder="Link">
     </div>
-    <div class="AuthFrom__submit">
-      <input type="button" value="Create token" id="submit">
-      <input type="button" value="Cancel" id="cancel">
+    <div class="AuthFrom__element">
+      <input type="button" class="auth_button" value="Create token" id="submit">
+      <input type="button" class="auth_button" value="Cancel" id="cancel">
     </div>
   </div>
-  <div class="TokenList" id="tokenlist"></div>
-  <div class="AddAuth">
-    <input type="button" value="add author" />
-    <input type="button" value="clear" id="clear">
+  <div id="ListManager">
+    <div class="TokenList" id="tokenlist"></div>
   </div>
   <script src="popup.js"></script>
 </body>

@@ -37,10 +37,10 @@ wrapper.className = "tl_ui_wrapper";
 wrapper.innerHTML = `
     <div class="Navigation">
         <div class="Navigation__element">
-            <input type="button" value="list" id="list" />
+            <input type="button" value="Articles list" id="list" class="buttonForNavigation" />
         </div>
         <div class="Navigation__element">
-            <input type="button" value="new" id="new" />
+            <input type="button" value="New article" id="new" class="buttonForNavigation" />
         </div>
     </div>
 `
@@ -87,6 +87,8 @@ document.addEventListener("click", (e) => {
                         <div>visits</div>
                     </div>
                     ${list}`;
+              } else {
+                tl_artiles_list.innerHTML = 'No articles. Create one to see it in the list';
               }
             }
           };

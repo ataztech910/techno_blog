@@ -1,12 +1,26 @@
 //application config ---------------------------
 const storageName = "thp_users_auth";
-//----------------------------------------------
+//application UI elements ----------------------
 const submit = document.getElementById("submit");
-const clear = document.getElementById("clear");
-
-clear.onclick = () => {
-  clearList();
+// const clear = document.getElementById("clear");
+const cancel = document.getElementById("cancel");
+const addAuthor = document.getElementById("addAuthor");
+const form = document.getElementById("AuthForm");
+const list = document.getElementById("ListManager");
+//----------------------------------------------
+addAuthor.onclick = () => {
+  list.style.display = "none";
+  form.style.display = "block";
 };
+
+cancel.onclick = () => {
+  list.style.display = "block";
+  form.style.display = "none";
+};
+
+// clear.onclick = () => {
+//   clearList();
+// };
 
 submit.onclick = () => {
   var xhttp = new XMLHttpRequest();
@@ -75,17 +89,16 @@ const clearList = () => {
 
 const checkNotEmpty = (element) => {
   console.log("element", element);
-  return JSON.stringify(element) !== "{}" && element !== "";
+  return element && JSON.stringify(element) !== "{}" && element !== "";
 };
 
 const getDataFromStorage = (tokenlist) => {
   tokenlist.innerHTML = `
     <div class="UserElement UserElement--header">
-        <div>short name</div>
-        <div>author name</div>
-        <div>link</div>
-        <div>status</div>
-        <div>actions</div>
+        <div class="UserElement__div">#</div>
+        <div class="UserElement__div">Author name</div>
+        <div class="UserElement__div">Status</div>
+        <div class="UserElement__div">Actions</div>
     </div>
   `;
   chrome.storage.local.get([storageName], (result) => {
@@ -97,16 +110,31 @@ const getDataFromStorage = (tokenlist) => {
       for (let i = 0; i < usersList.length; i++) {
         const element = document.createElement("div");
         element.className = "UserElement";
-        let useToken = "<div></div>";
+        let useToken = `<div class="UserElement__div"></div>`;
         if (usersList[i].loggedIn === "false") {
-          useToken = `<div><input type="button" value="use token" id="useToken" data-token="${usersList[i].accessToken}"/></div>`;
+          useToken = `<div class="UserElement__div">
+                  <div class="tooltip">
+                    <img id="useToken" class="actionIcon" src="/icons/copywriting.png" alt="Use this token" data-token="${usersList[i].accessToken}"/>
+                    <span class="tooltiptext">Use token</span>
+                  </div>
+              </div>`;
         }
+        // element.innerHTML = `
+        //         <div>${i+1}</div>
+        //         <div>${usersList[i].shortName}</div>
+        //         <div>${usersList[i].author_name}</div>
+        //         <div>${usersList[i].link}</div>
+        //         <div>${usersList[i].loggedIn}</div>
+        //         ${useToken}`;
         element.innerHTML = `
-                <div>${usersList[i].shortName}</div>
-                <div>${usersList[i].author_name}</div>
-                <div>${usersList[i].link}</div>
-                <div>${usersList[i].loggedIn}</div>
-                ${useToken}`;
+                <div class="UserElement__div">${i+1}</div>
+                <div class="UserElement__div">${usersList[i].author_name}</div>
+                <div class="UserElement__div">
+                  <div class="badge badge--${usersList[i].loggedIn}">
+                    ${usersList[i].loggedIn}
+                  </div>  
+                </div>
+                ${useToken}`;        
         tokenlist.appendChild(element);
       }
     }
