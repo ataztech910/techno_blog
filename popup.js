@@ -18,10 +18,6 @@ cancel.onclick = () => {
   form.style.display = "none";
 };
 
-// clear.onclick = () => {
-//   clearList();
-// };
-
 submit.onclick = () => {
   var xhttp = new XMLHttpRequest();
 
@@ -119,13 +115,6 @@ const getDataFromStorage = (tokenlist) => {
                   </div>
               </div>`;
         }
-        // element.innerHTML = `
-        //         <div>${i+1}</div>
-        //         <div>${usersList[i].shortName}</div>
-        //         <div>${usersList[i].author_name}</div>
-        //         <div>${usersList[i].link}</div>
-        //         <div>${usersList[i].loggedIn}</div>
-        //         ${useToken}`;
         element.innerHTML = `
                 <div class="UserElement__div">${i+1}</div>
                 <div class="UserElement__div">${usersList[i].author_name}</div>
