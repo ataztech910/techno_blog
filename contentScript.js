@@ -4,12 +4,12 @@ const storageName = "thp_users_auth";
 let current_token = null;
 
 const checkNotEmpty = (element) => {
-    console.log("element", element);
+    // console.log("element", element);
     return JSON.stringify(element) !== "{}" && element !== "";
 };
 
 chrome.storage.local.get([storageName], (result) => {
-    console.log(result);
+    // console.log(result);
     const usersList = checkNotEmpty(result[storageName])
       ? JSON.parse(result[storageName])
       : [];
@@ -17,7 +17,7 @@ chrome.storage.local.get([storageName], (result) => {
         if (element.loggedIn === 'true') {
             current_token = element.accessToken;
         }
-    });  
+    });
 })
 
 const doc = document.getElementsByClassName('tl_page_wrap');
@@ -37,10 +37,10 @@ wrapper.className = "tl_ui_wrapper";
 wrapper.innerHTML = `
     <div class="Navigation">
         <div class="Navigation__element">
-            <input type="button" value="Articles list" id="list" class="buttonForNavigation" />
+            <div id="list" class="neo_button">Articles</div>
         </div>
         <div class="Navigation__element">
-            <input type="button" value="New article" id="new" class="buttonForNavigation" />
+            <div id="new" class="neo_button">New article<div/>
         </div>
     </div>
 `
@@ -53,6 +53,16 @@ chrome.runtime.onMessage.addListener( (request,sender,sendResponse) => {
     sendResponse({response : "token_recived"});
 });
 
+const copy = (text) => {
+    const input = document.createElement('textarea');
+    input.innerHTML = text;
+    document.body.appendChild(input);
+    input.select();
+    const result = document.execCommand('copy');
+    document.body.removeChild(input);
+    return result;
+}
+
 document.addEventListener("click", (e) => {
     if (e.target && e.target.id === "list") {
         xhttp.onreadystatechange = function () {
@@ -61,32 +71,49 @@ document.addEventListener("click", (e) => {
               const tl_artiles_list = document.getElementById('tl_artiles_list')
               tl_artiles_list.style.display = 'block';
               const result = JSON.parse(xhttp.responseText);
-              console.log("result", result);
+
               if (result.result.pages.length > 0) {
                 let list = '';
                 result.result.pages.forEach(element => {
                     const img = element.image_url ? `<div class="Article__image"><img src="${element.image_url}"></div>` : '<div class="Article__image">no image</div>';
                     list += `
-                        <div class="Article" onclick="location.href = '${element.url}'">
-                            ${img}
-                            <div>
-                                <a href="${element.url}">${element.title}</a>
-                            </div>
-                            <div class="Article__desc">
-                                ${element.views}
-                            </div>
-                            
-                        </div>
-                    `    
+                        <tr class="tableItem">
+                            <td onclick="location.href = '${element.url}'">${img}</td>    
+                            <td onclick="location.href = '${element.url}'"><a href="${element.url}">${element.title}</a></td>    
+                            <td onclick="location.href = '${element.url}'">${element.views}</td>    
+                            <td>
+                                <div class="copyToClipboard" id="copyToClipboard" data-url="${element.url}">
+                                    copy to clipboard
+                                </div>
+                            </td>    
+                        </tr>
+                    `
                 });
                 tl_artiles_list.innerHTML = `
-                    <div><h1>Articles list</h1></div>
-                    <div class="Article Article--header">
-                        <div>image</div>
-                        <div>title</div>
-                        <div>visits</div>
-                    </div>
-                    ${list}`;
+                    <div><h1 class="h1--list">Articles list</h1></div>
+                    <table class="Articles__listTable">
+                    <thead>
+                        <tr>
+                         <th>image</th>
+                         <th>title</th>
+                         <th>visits</th>
+                         <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${list}
+                    </tbody>
+                    </table>
+                    `;
+                    const copyToClipboard = document.getElementById('copyToClipboard');
+                      copyToClipboard.onclick = (e) => {
+                          copy(e.target.dataset.url);
+                          e.target.innerHTML = "copied";
+                          setTimeout(() => {
+                              e.target.innerHTML = "copy to clipboard";
+                          },600);
+
+                    }
               } else {
                 tl_artiles_list.innerHTML = 'No articles. Create one to see it in the list';
               }
@@ -98,8 +125,9 @@ document.addEventListener("click", (e) => {
             `https://api.telegra.ph/getPageList?access_token=${current_token}`,
             true
           );
-          xhttp.send();    
+          xhttp.send();
     } else if(e.target && e.target.id === "new") {
         location.href = "https://telegra.ph/";
     }
 });
+

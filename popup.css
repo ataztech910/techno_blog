@@ -5,12 +5,19 @@
     --table-hover-color: #F4F5F6;
     --button-color: #A0AAB2;
     --active-status-color: #2bc48a;
+    --baseColor: #e0e0e0;
+    --darkColor: #bebebe;
+    --lightColor: #ffffff;
+    --firstGradientColor: #f0f0f0;
+    --secondGradientColor: #cacaca;
+    --size: 108px;
+    --radius: 17px;
 }
 body {
     width: 600px;
     margin: 0;
     padding: 0;
-    font-family: 'Merriweather', serif;
+    font-family: CustomSansSerif, "Lucida Grande", Arial, sans-serif;
 }
 
 .TokenList {
@@ -19,34 +26,43 @@ body {
 }
 
 .Header {
-    background-color: var(--header-color);
+    background-color: var(--table-hover-color);
     display: flex;
-    padding: 0.5rem;
     align-items: center;
-    color: var(--light-color);
     font-size: 1.5rem;
     font-family: 'Merriweather', serif;
+    color: var(--header-color);
     justify-content: space-between;
-    padding: 0 1rem;
+    padding: 1rem;
 }
 .Header img {
     width: 60%;
 }
 
 .button {
-    background: var(--button-color);
+    border-radius: 4px;
+    color: var(--header-color);
+    background: #e0e0e0;
+    box-shadow:  -5px -5px 10px #afafaf,
+    5px 5px 10px #ffffff;
     border: 0;
-    color: var(--light-color);
     padding: 0.5rem;
-    border-radius: 5px;
     cursor: pointer;
-    display: flex;
     align-items: center;
     width: 6rem;
-    text-align: right;
+    text-align: center;
     line-height: 1;
     margin: 0.5rem;
+    font-size: 11px;
+    text-transform: uppercase;
 }
+.button:hover {
+    border-radius: 4px;
+    background: linear-gradient(315deg, #cacaca, #f0f0f0);
+    box-shadow:  -5px -5px 10px #afafaf,
+    5px 5px 10px #ffffff;
+}
+
 .button img {
     width: 30%;
 }
@@ -63,7 +79,7 @@ body {
     transition: 0.5s;
     background-color: transparent;
     text-align: left;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid rgb(202, 202, 202);
     height: 2.5rem;
     line-height: 2.5rem;
 }
@@ -75,7 +91,8 @@ body {
 .UserElement--header {
     display: table-header-group;
     font-weight: bold;
-    background-color: var(--table-header-color) !important;
+    background-color: var(--baseColor) !important;
+    text-transform: uppercase;
 }
 
 .AuthForm {
@@ -113,7 +130,7 @@ input[type=button] {
     position: relative;
     display: inline-block;
 }
-  
+
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 100px;
@@ -122,12 +139,10 @@ input[type=button] {
     text-align: center;
     border-radius: 6px;
     padding: 2px 0;
-  
-    /* Position the tooltip */
     position: absolute;
     z-index: 1;
 }
-  
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
@@ -151,5 +166,21 @@ input[type=button] {
     width: 49.5% !important;
     background-color: var(--button-color);
     border: 0;
-    color: var(--light-color);  
+    color: var(--light-color);
+}
+
+.twoDivs {
+    display: flex;
+    justify-content: space-between;
+}
+.auth_button--cancel {
+    background: none;
+    border: 1px solid var(--button-color);
+    color: var(--header-color);
+}
+
+.emptyAuthors {
+    padding: 1rem;
+    font-weight: bold;
+    text-align: center;
 }

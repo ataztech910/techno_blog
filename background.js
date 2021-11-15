@@ -26,7 +26,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 );
 
 chrome.runtime.onMessage.addListener( (request,sender,sendResponse) => {
-    console.log('from message', {request,sender,sendResponse});
+    // console.log('from message', {request,sender,sendResponse});
     if (request.token) {
         token = request.token;
         sendResponse({response : "token_recived"});

@@ -65,15 +65,17 @@ const saveIntoStorage = (data) => {
     });
     usersList.unshift(data);
     console.log("new data is", usersList);
+
     chrome.storage.local.set(
       { [storageName]: JSON.stringify(usersList) },
       () => {
         console.log("Value is set to ", JSON.stringify(usersList));
-        chrome.tabs.update({ active: true, url: data.authUrl });
         getDataFromStorage(tokenlist);
       }
     );
   });
+  // console.log("data", data);
+  authUser(data.accessToken);
 };
 
 const clearList = () => {
@@ -89,20 +91,22 @@ const checkNotEmpty = (element) => {
 };
 
 const getDataFromStorage = (tokenlist) => {
-  tokenlist.innerHTML = `
-    <div class="UserElement UserElement--header">
-        <div class="UserElement__div">#</div>
-        <div class="UserElement__div">Author name</div>
-        <div class="UserElement__div">Status</div>
-        <div class="UserElement__div">Actions</div>
-    </div>
-  `;
   chrome.storage.local.get([storageName], (result) => {
     const usersList = checkNotEmpty(result[storageName])
       ? JSON.parse(result[storageName])
       : [];
     console.log("usersList", usersList);
     if (usersList.length > 0) {
+
+      tokenlist.innerHTML = `
+        <div class="UserElement UserElement--header">
+            <div class="UserElement__div">#</div>
+            <div class="UserElement__div">Author name</div>
+            <div class="UserElement__div">Status</div>
+            <div class="UserElement__div">Actions</div>
+        </div>
+      `;
+
       for (let i = 0; i < usersList.length; i++) {
         const element = document.createElement("div");
         element.className = "UserElement";
@@ -123,52 +127,58 @@ const getDataFromStorage = (tokenlist) => {
                     ${usersList[i].loggedIn}
                   </div>  
                 </div>
-                ${useToken}`;        
+                ${useToken}`;
         tokenlist.appendChild(element);
       }
+    }
+    else {
+      tokenlist.innerHTML = `<div class="emptyAuthors">No authors. Create one to proceed</div>`;
     }
   });
 };
 
 getDataFromStorage(tokenlist);
 
+const authUser = (token) => {
+  chrome.runtime.sendMessage({token: token},
+      (response) => {
+        console.log("response", response);
+        if (response.response === 'token_recived') {
+
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {token: token}, function(response) {
+              console.log(response);
+            });
+          });
+
+
+          chrome.storage.local.get([storageName], (result) => {
+            const usersList = JSON.parse(result[storageName]);
+            usersList.forEach(element => {
+              if (element.accessToken === token) {
+                element.loggedIn = 'true';
+              } else {
+                element.loggedIn = 'false';
+              }
+            });
+            chrome.storage.local.set(
+                { [storageName]: JSON.stringify(usersList) },
+                () => {
+                  console.log("Value is set to ", JSON.stringify(usersList));
+                  chrome.tabs.update({ active: true, url: 'https://telegra.ph/' });
+                  getDataFromStorage(tokenlist);
+                }
+            );
+          });
+
+        }
+      }
+  );
+}
+
 document.addEventListener("click", (e) => {
   if (e.target && e.target.id === "useToken") {
     console.log("dataset", e.target.dataset);
-    
-    chrome.runtime.sendMessage({token: e.target.dataset.token}, 
-        (response) => { 
-            console.log("response", response);
-            if (response.response === 'token_recived') {
-
-              chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, {token: e.target.dataset.token}, function(response) {
-                  console.log(response);
-                });
-              });
-
-
-              chrome.storage.local.get([storageName], (result) => {
-                const usersList = JSON.parse(result[storageName]);
-                usersList.forEach(element => {
-                  if (element.accessToken === e.target.dataset.token) {
-                    element.loggedIn = 'true';
-                  } else {
-                    element.loggedIn = 'false';
-                  }
-                });
-                chrome.storage.local.set(
-                  { [storageName]: JSON.stringify(usersList) },
-                  () => {
-                    console.log("Value is set to ", JSON.stringify(usersList));
-                    chrome.tabs.update({ active: true, url: 'https://telegra.ph/' });
-                    getDataFromStorage(tokenlist);
-                  }
-                );
-              });
-              
-            }
-        }
-    ); 
+    authUser(e.target.dataset.token);
   }
 });
